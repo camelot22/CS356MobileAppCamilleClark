@@ -1,0 +1,52 @@
+import 'package:best_dates/Screens/activityscreen1.dart';
+import 'package:best_dates/Screens/activityscreen2.dart';
+import 'package:best_dates/Screens/restaurantscreen1.dart';
+import 'package:best_dates/Screens/restaurantscreen2.dart';
+import 'package:flutter/material.dart';
+import 'package:best_dates/Screens/homescreen.dart';
+import 'package:best_dates/constants.dart';
+
+void main()
+{
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget
+{
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false, //get rid of the banner thing
+      title: 'Get date ideas!',
+      theme: ThemeData(
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+
+        // Define the default colors.
+        primarySwatch: kPrimaryColor,
+        scaffoldBackgroundColor: kBackgroundColor,
+
+        // Define the default font family.
+        //fontFamily: 'Arial',
+
+        // Define the default TextTheme
+        fontFamily: 'Comfortaa',
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold, color: kDarkTextColor),
+        ),
+
+
+        //theme for raised buttons
+
+      ),
+      home: HomeScreen(),
+      routes: {
+        RestaurantScreen1.routeName: (context) => RestaurantScreen1(),
+        RestaurantScreen2.routeName: (context) => RestaurantScreen2(),
+        ActivityScreen1.routeName: (context) => ActivityScreen1(),
+        ActivityScreen2.routeName: (context) => ActivityScreen2(),
+      }
+
+    );
+  }
+}
