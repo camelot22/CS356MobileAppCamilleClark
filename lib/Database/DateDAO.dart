@@ -16,16 +16,6 @@ class DateDAO
 
   final String activityDescription = "Description is coming!";
 
-  //What columns we want info from
-  /*
-  static final columnName = "RestaurantName";
-  static final columnPrice = "Price";
-  static final columnType = "Type";
-  static final columnAddress = "Address";
-  static final columnWebsite = "Website";
-  static final columnHasBrunch = "BrunchOptions";
-  static final columnImageURL = "ImageURL";
-*/
 
   // make this a singleton class
   DateDAO._privateConstructor();
@@ -91,7 +81,6 @@ class DateDAO
 
     if (set != null && set.isNotEmpty)
     {
-      print("set is not null");
       set.forEach((element)
       {
         str = str + "'" + element + "', "; //TODO: there's got to be a better way to cut this off early
@@ -103,7 +92,6 @@ class DateDAO
       str = str.substring(0, str.length - 2);
     }
 
-    print(str);
     return str;
   }
 
@@ -112,7 +100,6 @@ class DateDAO
   String convertPriceSetToString(Set<int> set)
   {
     String str = "";
-    print(set);
 
     if (set != null && set.isNotEmpty)
     {
@@ -126,7 +113,6 @@ class DateDAO
     {
       str = str.substring(0, str.length - 2);
     }
-    print(str);
     return str;
   }
 
@@ -134,7 +120,6 @@ class DateDAO
   //Future<Restaurant>
   Future<List<Restaurant>> queryRestaurants(Set<int> _selectedPriceRanges, Set<String> _selectedFoods) async
   {
-    print("starting query\n");
     // get a reference to the database
     Database db = await DateDAO.instance.database;
     List<Map> results;
@@ -172,13 +157,12 @@ class DateDAO
         results = new List<Map>();
         for (int i = 0; i < typeResults.length; i++)
         {
-          print(typeResults[i]['RestaurantName']);
           for (int j = 0; j < priceResults.length; j++)
           {
             if (typeResults[i]['RestaurantName'] == priceResults[j]['RestaurantName'])
             {
               results.add(typeResults[i]);
-              print(priceResults[j]['RestaurantName']);
+              print(' ');
               break;
             }
           }
@@ -245,7 +229,6 @@ class DateDAO
 
   Future<List<DateActivity>> queryActivities(Set<String> _selectedFoods) async
   {
-    print("starting query\n");
     // get a reference to the database
     Database db = await DateDAO.instance.database;
     List<Map> results;
@@ -258,7 +241,6 @@ class DateDAO
     //did they pick something? Then use that.
     else
     {
-      print(_selectedFoods);
       String meme = convertFoodSetToString(_selectedFoods);
 
       // raw query
@@ -266,15 +248,6 @@ class DateDAO
     }
 
     //TODO: check if we got any results or not!!!!!!!!!
-
-
-    // get a random result
-    // print(results);
-    // int length = results.length;
-    // Random random = new Random();
-    // int randomIndex = random.nextInt(length);
-    // Map myResult = results[randomIndex];
-
 
 
 

@@ -125,16 +125,20 @@ class RestaurantScreen2 extends StatelessWidget
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(restaurant.address == null ? "Go and google the closest location" : restaurant.address),
-              IconButton(
-                icon: Icon(
-                    Icons.copy
-                ),
-                onPressed: ()
-                {
-                  Clipboard.setData(new ClipboardData(text: restaurant.address == null ? "Why did you copy this??" : restaurant.address));
-                },
-              ),
+              // IconButton(
+              //   icon: Icon(
+              //       Icons.copy
+              //   ),
+              //   onPressed: ()
+              //   {
+              //     //Clipboard.setData(new ClipboardData(text: restaurant.address == null ? "Why did you copy this??" : restaurant.address));
+              //   },
+              // ),
             ]
+          ),
+          SizedBox(
+            height: kSpacingAmount,
+            width: kSpacingAmount,
           ),
 
           ElevatedButton(

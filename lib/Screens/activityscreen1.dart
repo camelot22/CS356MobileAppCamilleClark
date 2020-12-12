@@ -278,10 +278,6 @@ class _ActivityScreen1State extends State<ActivityScreen1>
     var db = DateDAO.instance;
     var activities = await db.queryActivities(_selectedFoods);
 
-    //print('query all rows:');
-    //allRows.forEach((row) => print(row));
-
-
     if (activities != null)
     {
       Navigator.pushNamed(

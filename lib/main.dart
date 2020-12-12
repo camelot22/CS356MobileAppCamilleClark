@@ -1,16 +1,22 @@
 import 'package:best_dates/Screens/activityscreen1.dart';
 import 'package:best_dates/Screens/activityscreen2.dart';
+import 'package:best_dates/Screens/homescreen2.dart';
 import 'package:best_dates/Screens/loadingscreen.dart';
 import 'package:best_dates/Screens/loadingscreen2.dart';
 import 'package:best_dates/Screens/restaurantscreen1.dart';
 import 'package:best_dates/Screens/restaurantscreen2.dart';
 import 'package:flutter/material.dart';
-import 'package:best_dates/Screens/homescreen.dart';
 import 'package:best_dates/constants.dart';
+import 'package:flutter/services.dart';
 
 void main()
 {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  .then((_) {
+    runApp(MyApp());
+  });
+
 }
 
 class MyApp extends StatelessWidget
@@ -37,7 +43,7 @@ class MyApp extends StatelessWidget
         //TODO: theme for raised buttons
 
       ),
-      home: HomeScreen(),
+      home: HomeScreen2(),
       routes: {
         RestaurantScreen1.routeName: (context) => RestaurantScreen1(),
         RestaurantScreen2.routeName: (context) => RestaurantScreen2(),
