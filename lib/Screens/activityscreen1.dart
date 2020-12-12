@@ -1,6 +1,6 @@
 import 'package:best_dates/Database/DateDAO.dart';
 import 'package:best_dates/Objects/activityarguments.dart';
-import 'package:best_dates/Screens/activityscreen2.dart';
+import 'package:best_dates/Screens/loadingscreen2.dart';
 import 'package:flutter/material.dart';
 import 'package:best_dates/constants.dart';
 
@@ -20,7 +20,7 @@ class _ActivityScreen1State extends State<ActivityScreen1>
   var selectedButtonStyle = OutlinedButton.styleFrom(
     primary: kBackgroundColor,
     shape: StadiumBorder(),
-    backgroundColor: kPrimaryColor,
+    backgroundColor: Colors.grey,
   );
   var outlinedButtonStyle = OutlinedButton.styleFrom(
     primary: kDarkTextColor,
@@ -32,7 +32,7 @@ class _ActivityScreen1State extends State<ActivityScreen1>
   final selectedMoneyButtonStyle = OutlinedButton.styleFrom(
     primary: kBackgroundColor,
     shape: StadiumBorder(),
-    backgroundColor: kPrimaryColor,
+    backgroundColor: Colors.grey,
   );
   final outlinedMoneyButtonStyle = OutlinedButton.styleFrom(
     primary: kDarkTextColor,
@@ -48,7 +48,9 @@ class _ActivityScreen1State extends State<ActivityScreen1>
   Widget build(BuildContext context)
   {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text('Activity Filters'),
+        ),
         body: _buildBody()
     );
   }
@@ -81,14 +83,6 @@ class _ActivityScreen1State extends State<ActivityScreen1>
             ]
         ),
 
-        Text(
-            "Optional filters",
-            style: TextStyle(fontSize: 40.0)
-        ),
-        SizedBox(
-          height: kGapHeight+10,
-          width: kGapWidth,
-        ),
 
         SizedBox(
             height: kSizedBoxHeight,
@@ -282,17 +276,18 @@ class _ActivityScreen1State extends State<ActivityScreen1>
   void pressed() async
   {
     var db = DateDAO.instance;
-    var activity = await db.queryActivities(_selectedFoods);
+    var activities = await db.queryActivities(_selectedFoods);
+
     //print('query all rows:');
     //allRows.forEach((row) => print(row));
 
 
-    if (activity != null)
+    if (activities != null)
     {
       Navigator.pushNamed(
         context,
-        ActivityScreen2.routeName,
-        arguments: ActivityArguments( _selectedFoods, activity),
+        ActivityLoadingScreen.routeName,
+        arguments: ActivityArguments( _selectedFoods, activities),
       );
     }
     else

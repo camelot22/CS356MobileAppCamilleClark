@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:best_dates/constants.dart';
-import 'homescreenbody.dart';
+import 'dart:async';
+import 'package:best_dates/Screens/homescreen2.dart';
+import 'package:flutter/cupertino.dart';
 
 class HomeScreen extends StatelessWidget
 {
@@ -9,7 +11,9 @@ class HomeScreen extends StatelessWidget
   {
     return Scaffold(
       appBar: AppBar(
-        title: Text(kAppName),
+        title: Text('Open the Date Jar!'),
+        backgroundColor: kAppBarColor,
+        //shadowColor: Colors.transparent,
       ),
       body: HomeScreenBody(),
     );
@@ -17,79 +21,150 @@ class HomeScreen extends StatelessWidget
 
 }
 
-/*
-  MyHomePage({Key key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+////////////////////////////////////////////////////////////////////////
+class HomeScreenBody extends StatefulWidget
+{
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomeScreenBodyState createState() => _HomeScreenBodyState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+
+////////////////////////////////////////////////////////////////////////
+class _HomeScreenBodyState extends State<HomeScreenBody>  {
+  double _lidOffset = 200.0;
+  final int _animationTime = 400;
+  Color _lidColor = Colors.grey;
+  double _popsicleOffset = 0.0;
+  final int _animationPopsicle = 700;
 
 
+  void updateState() {
+    setState(() {
+      _lidOffset = 250.0;
+      _lidColor = Colors.transparent;
+    });
+  }
 
+  void updateState2() {
+    setState(() {
+      _popsicleOffset = 700.0;
+    });
+  }
+
+  void updateState3() {
+    setState(() {
+      _lidOffset = 200;
+      _popsicleOffset = 0.0;
+      _lidColor = Colors.grey;
+    });
+  }
+
+
+  var homePageButtonTheme = ElevatedButton.styleFrom(
+    elevation: 10.0,
+    shadowColor: Colors.blue,
+    textStyle: TextStyle(fontSize: 30.0, color: kLightTextColor, fontFamily: 'Comfortaa'),
+    padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+    minimumSize: Size(250.0, 120.0),
+  );
 
   @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+  Widget build(BuildContext context)
+  {
+    Size size = MediaQuery.of(context).size; //h&w of phone screen
+
+    return Container(
+        height: size.height,
+        width: size.width,
+        child: Center(
+          child: GestureDetector(
+            onTap: () {
+              //_controller.forward(); // start the animation
+              updateState();
+
+              Timer(Duration(milliseconds: _animationTime), () { //wait for lid
+                updateState2();
+              });
+
+              Timer(Duration(milliseconds: _animationTime+1200), () { //wait for popsicles
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => HomeScreen2())
+                );
+                updateState3();
+              });
+
+            },
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                AnimatedContainer(
+                  duration: Duration(milliseconds: _animationPopsicle),
+                  height: 100.0,
+                  width: 20.0,
+                  margin: EdgeInsets.only(bottom: _popsicleOffset, left:40.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40.0),
+                    color: Color(0xffd4bda1)
+                  ),
+                ),
+
+                AnimatedContainer(
+                  duration: Duration(milliseconds: _animationPopsicle),
+                  height: 100.0,
+                  width: 20.0,
+                  margin: EdgeInsets.only(bottom: _popsicleOffset, right: 40.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40.0),
+                    color: Color(0xffd4bda1)
+                  ),
+                ),
+
+                Container(
+                  height: 200.0,
+                  width: 200.0,
+                  //margin: EdgeInsets.only(top: 18.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40.0),
+                      //border: Border.all(color: Colors.black),
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            const Color(0xefe3e3e3),
+                            const Color(0xef454545)
+                          ]
+                      )
+                  ),
+                ),
+
+                Container( // the lip
+                  height: 30.0,
+                  width: 130.0,
+                  color: const Color(0xefe3e3e3),
+                  margin: EdgeInsets.only(bottom: 200.0),
+                ),
+
+                AnimatedContainer( // the lid
+                  duration: Duration(milliseconds: 300),
+                  height: 40.0,
+                  width: 140.0,
+                  color: _lidColor,
+                  margin: EdgeInsets.only(bottom: _lidOffset),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(right: 100.0, bottom: 130.0),
+                  child: Icon(
+                    Icons.auto_awesome,
+                    size: 70.0,
+                    color: Colors.white70,
+                  ),
+                )
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+          ),
+        )
     );
   }
 }
-*/

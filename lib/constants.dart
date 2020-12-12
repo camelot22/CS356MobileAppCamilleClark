@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 //colors for the app
-const kPrimaryColor = Colors.blue;
+const kPrimaryColor = Colors.deepPurple;
 const kBackgroundColor = Colors.white;
 const kDarkTextColor = Colors.black45;
 const kLightTextColor = Colors.white;
 const kSelectButtonColor = Colors.red;
 const kGeneratorColor = Colors.blue;
-const kAppBarColor = Colors.blue;
+const kAppBarColor = Colors.deepPurple;
 
 //spacing
 const kSpacingAmount = 32.0;

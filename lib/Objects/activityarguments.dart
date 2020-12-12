@@ -1,8 +1,6 @@
-import 'package:best_dates/Objects/activity.dart';
-
 class ActivityArguments {
   var selectedFoods = Set<String>();
-  DateActivity activity;
+  var activities;
 
-  ActivityArguments(this.selectedFoods, this.activity);
+  ActivityArguments(this.selectedFoods, this.activities);
 }

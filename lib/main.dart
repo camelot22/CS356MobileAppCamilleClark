@@ -1,5 +1,7 @@
 import 'package:best_dates/Screens/activityscreen1.dart';
 import 'package:best_dates/Screens/activityscreen2.dart';
+import 'package:best_dates/Screens/loadingscreen.dart';
+import 'package:best_dates/Screens/loadingscreen2.dart';
 import 'package:best_dates/Screens/restaurantscreen1.dart';
 import 'package:best_dates/Screens/restaurantscreen2.dart';
 import 'package:flutter/material.dart';
@@ -31,20 +33,18 @@ class MyApp extends StatelessWidget
 
         // Define the default TextTheme
         fontFamily: 'Comfortaa',
-        textTheme: TextTheme(
-          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold, color: kDarkTextColor),
-        ),
 
-
-        //theme for raised buttons
+        //TODO: theme for raised buttons
 
       ),
       home: HomeScreen(),
       routes: {
         RestaurantScreen1.routeName: (context) => RestaurantScreen1(),
         RestaurantScreen2.routeName: (context) => RestaurantScreen2(),
+        RestaurantLoadingScreen.routeName: (context) => RestaurantLoadingScreen(),
         ActivityScreen1.routeName: (context) => ActivityScreen1(),
         ActivityScreen2.routeName: (context) => ActivityScreen2(),
+        ActivityLoadingScreen.routeName: (context) => ActivityLoadingScreen(),
       }
 
     );

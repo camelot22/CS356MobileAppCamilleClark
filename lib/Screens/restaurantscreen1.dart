@@ -1,7 +1,7 @@
 import 'package:best_dates/Database/DateDAO.dart';
 import 'package:best_dates/Objects/restaurantarguments.dart';
+import 'package:best_dates/Screens/loadingscreen.dart';
 import 'package:best_dates/constants.dart';
-import 'restaurantscreen2.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class _RestaurantScreen1State extends State<RestaurantScreen1>
   var selectedButtonStyle = OutlinedButton.styleFrom(
     primary: kBackgroundColor,
     shape: StadiumBorder(),
-    backgroundColor: kPrimaryColor,
+    backgroundColor: Colors.grey,
   );
   var outlinedButtonStyle = OutlinedButton.styleFrom(
     primary: kDarkTextColor,
@@ -35,7 +35,7 @@ class _RestaurantScreen1State extends State<RestaurantScreen1>
   final selectedMoneyButtonStyle = OutlinedButton.styleFrom(
     primary: kBackgroundColor,
     shape: StadiumBorder(),
-    backgroundColor: kPrimaryColor,
+    backgroundColor: Colors.grey,
   );
   final outlinedMoneyButtonStyle = OutlinedButton.styleFrom(
     primary: kDarkTextColor,
@@ -61,7 +61,9 @@ class _RestaurantScreen1State extends State<RestaurantScreen1>
   Widget build(BuildContext context)
   {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Food Filters'),
+      ),
       body: _buildBody(context)
     );
   }
@@ -94,18 +96,7 @@ class _RestaurantScreen1State extends State<RestaurantScreen1>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          "Optional filters",
-          style: TextStyle(fontSize: 40.0)
-        ),
-        SizedBox(
-          height: kGapHeight+10,
-          width: kGapWidth,
-        ),
 
-        Text( "If you want a filter,"),
-        Text("pick either a price range or a type of food.", style: TextStyle(color: Colors.red),),
-        Text("Choosing both is currently broken."),
 
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -265,6 +256,7 @@ class _RestaurantScreen1State extends State<RestaurantScreen1>
             onPressed: () => pressed(context),
             child: Text(
                 "Get A Restaurant",
+              //textAlign: TextAlign.center,
               style: TextStyle(color: kLightTextColor, fontWeight: FontWeight.w700
               )
             ),
@@ -289,18 +281,23 @@ class _RestaurantScreen1State extends State<RestaurantScreen1>
 
     if (restaurantsList != null)
     {
+      // Navigator.pushNamed(
+      //   context,
+      //   RestaurantScreen2.routeName,
+      //   arguments: RestaurantArguments(null, null, restaurantsList),
+      // );
       Navigator.pushNamed(
         context,
-        RestaurantScreen2.routeName,
+        RestaurantLoadingScreen.routeName,
         arguments: RestaurantArguments(null, null, restaurantsList),
       );
     }
     else
     {
       //TODO:make a toast appear saying "no results within your filters"
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("Sending Message"),
-      ));
+      // Scaffold.of(context).showSnackBar(SnackBar(
+      //   content: Text("Sending Message"),
+      // ));
     }
   }
 

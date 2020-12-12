@@ -1,8 +1,9 @@
+import 'dart:math';
+
 import 'package:best_dates/Objects/activityarguments.dart';
 import 'package:best_dates/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:best_dates/Objects/activity.dart';
 
 class ActivityScreen2 extends StatelessWidget
 {
@@ -21,6 +22,14 @@ class ActivityScreen2 extends StatelessWidget
 
   Widget _buildBody(ActivityArguments args, BuildContext context)
   {
+    // get a random result
+    int length = args.activities.length;
+    Random random = new Random();
+    int randomIndex = random.nextInt(length);
+    DateActivity activity = args.activities[randomIndex];
+
+    Size size = MediaQuery.of(context).size;
+
     return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -34,13 +43,16 @@ class ActivityScreen2 extends StatelessWidget
                   ),
                 ]
             ),
-            Text(
-              args.activity.name,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 40.0,
-                fontWeight: FontWeight.w700,
-              )
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Text(
+                  activity.name,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.w700,
+                  )
+              ),
             ),
             SizedBox(
               height: kSpacingAmount,
@@ -48,10 +60,17 @@ class ActivityScreen2 extends StatelessWidget
             ),
 
 
-            Container(
-              width: double.infinity,
-              height: 200.0,
-              child: Image.network(args.activity.imageURL),
+            Container( //IMAGE OF FOOD
+              width: size.width * .9, // 90% of the screen
+              height: 200,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30.0),
+                  image: DecorationImage(
+                    alignment: Alignment.center,
+                    fit: BoxFit.cover,
+                    image: NetworkImage(activity.imageURL),
+                  )
+              ),
             ),
             SizedBox(
               height: kSpacingAmount,
@@ -59,7 +78,7 @@ class ActivityScreen2 extends StatelessWidget
             ),
 
 
-            Text("Activity Type: " + args.activity.type),
+            Text("Activity Type: " + activity.type),
             SizedBox(
               height: kSpacingAmount,
               width: kSpacingAmount,
@@ -75,9 +94,26 @@ class ActivityScreen2 extends StatelessWidget
               height: kGapHeight,
               width: kGapWidth,
             ),
-            Text(
-              args.activity.description != null ? args.activity.description : "Description coming soon!",
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Text(
+                activity.description != null ? activity.description : "Description coming soon!",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black.withOpacity(.7)
+                ),
+              ),
+            ),
+            SizedBox(
+              height: kSpacingAmount,
+              width: kSpacingAmount,
+            ),
+
+            ElevatedButton(
+              onPressed: () => pressed(context, args, randomIndex, length),
+              child: Text(
+                  "I don't like this, give me another."
+              ),
             ),
             SizedBox(
               height: kSpacingAmount,
@@ -87,6 +123,16 @@ class ActivityScreen2 extends StatelessWidget
           ],
         )
     );
+  }
+
+  void pressed(BuildContext context, ActivityArguments args, int randomIndex, int length) {
+    if (length == 1) {
+      Navigator.pop(context);
+    }
+    else {
+      args.activities.removeAt(randomIndex);
+      Navigator.of(context).pushReplacementNamed(routeName, arguments: args);
+    }
   }
 
 }

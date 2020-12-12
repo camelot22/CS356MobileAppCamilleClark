@@ -1,20 +1,20 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:best_dates/Objects/activity.dart';
 import 'package:best_dates/Objects/restaurant.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
 
 class DateDAO
 {
   static final String _databaseName = "DateDatabase.db";
-  static final _databaseVersion = 1;
+  //static final _databaseVersion = 1;
 
   static final table = "Restaurants";
   static final activityTable = "Activities";
+
+  final String activityDescription = "Description is coming!";
 
   //What columns we want info from
   /*
@@ -160,7 +160,7 @@ class DateDAO
         String meme = convertFoodSetToString(_selectedFoods);
         results = await db.rawQuery("SELECT * FROM $table WHERE Type IN ($meme)");
       }
-      else
+      else //both
       {
         String meme = convertFoodSetToString(_selectedFoods);
         List<Map> typeResults = await db.rawQuery("SELECT * FROM $table WHERE Type IN ($meme)");
@@ -168,6 +168,21 @@ class DateDAO
         String meme2 = convertPriceSetToString(_selectedPriceRanges);
         List<Map> priceResults = await db.rawQuery("SELECT * FROM $table WHERE Price IN ($meme2)");
 
+
+        results = new List<Map>();
+        for (int i = 0; i < typeResults.length; i++)
+        {
+          print(typeResults[i]['RestaurantName']);
+          for (int j = 0; j < priceResults.length; j++)
+          {
+            if (typeResults[i]['RestaurantName'] == priceResults[j]['RestaurantName'])
+            {
+              results.add(typeResults[i]);
+              print(priceResults[j]['RestaurantName']);
+              break;
+            }
+          }
+        }
       }
     }
 
@@ -228,7 +243,7 @@ class DateDAO
 
 
 
-  Future<DateActivity> queryActivities(Set<String> _selectedFoods) async
+  Future<List<DateActivity>> queryActivities(Set<String> _selectedFoods) async
   {
     print("starting query\n");
     // get a reference to the database
@@ -254,18 +269,22 @@ class DateDAO
 
 
     // get a random result
-    print(results);
-    int length = results.length;
-    Random random = new Random();
-    int randomIndex = random.nextInt(length);
-    Map myResult = results[randomIndex];
+    // print(results);
+    // int length = results.length;
+    // Random random = new Random();
+    // int randomIndex = random.nextInt(length);
+    // Map myResult = results[randomIndex];
 
 
-    return DateActivity( myResult['ActivityName'], myResult['ActivityType'],
-        (myResult['Description'] == null ? "Description is coming!" : myResult['Description']),
-        getActivityImage(myResult['ActivityType']));
+
+
+    return List.generate(results.length, (i)
+    {
+      return DateActivity( results[i]['ActivityName'], results[i]['ActivityType'],
+          (results[i]['Description'] == null ? activityDescription : results[i]['Description']),
+          getActivityImage(results[i]['ActivityType']));
+    });
   }
-//
 
 }
 

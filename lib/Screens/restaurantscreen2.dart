@@ -44,6 +44,8 @@ class RestaurantScreen2 extends StatelessWidget
     int randomIndex = random.nextInt(length);
     Restaurant restaurant = args.restaurants[randomIndex];
 
+    Size size = MediaQuery.of(context).size;
+
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -66,11 +68,18 @@ class RestaurantScreen2 extends StatelessWidget
             width: kSpacingAmount,
           ),
 
-          Container(
-            width: double.infinity,
+          Container( //IMAGE OF FOOD
+            width: size.width * .9, // 90% of the screen
             height: 200,
-            child: Image.network(restaurant.imageURL == null ?
-            defaultImage : restaurant.imageURL),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30.0),
+              image: DecorationImage(
+                alignment: Alignment.center,
+                fit: BoxFit.cover,
+                image: NetworkImage(restaurant.imageURL == null ?
+                defaultImage : restaurant.imageURL),
+              )
+            ),
           ),
           SizedBox(
             height: kSpacingAmount,
